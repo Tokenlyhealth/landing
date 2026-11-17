@@ -1,18 +1,36 @@
-# Tokenly — Healthcare Software Landing Page
+# Tokenly Health — Healthcare Software Landing Page
 
-Premium B2B marketing site for Tokenly: custom hospital, pharmacy and business software built around real workflows.
+Marketing site for Tokenly Health: hospital billing, appointment booking, pharmacy inventory and custom business software.
+
+Live URL: [https://health.tokenly.in](https://health.tokenly.in)
 
 ## Stack
 
 - React 19 + TypeScript
-- Vite 8
+- Vite 6
 - Tailwind CSS 4
 - React Router
+
+## Brand configuration
+
+Company name, contact details, canonical URL and SEO metadata live in `src/config/brand.ts`.
+
+When the final brand name is confirmed, update that file. The Vite plugin injects the same values into `index.html` at build time. Also update:
+
+- `public/site.webmanifest`
+- `public/logo.png` / `public/favicon.png` / `public/og.png` if the mark changes
+- `public/sitemap.xml` and `public/robots.txt` if the public host changes
+
+Regenerate the social preview with:
+
+```bash
+python3 scripts/generate-og.py
+```
 
 ## Local development
 
 ```bash
-# Use Node 20+
+# Use Node 18
 nvm use
 
 npm install
@@ -21,7 +39,7 @@ npm run dev
 
 Open the URL printed by Vite (usually `http://localhost:5173`).
 
-Contact details live in `src/config/brand.ts` (email + WhatsApp). The consultation form opens WhatsApp with a prefilled enquiry.
+The consultation form opens WhatsApp with a prefilled enquiry. There is no separate form backend.
 
 ## Production build
 
@@ -54,7 +72,28 @@ location / {
 }
 ```
 
-Canonical SEO URLs currently point to `https://health.tokenly.in` in `index.html`, `public/sitemap.xml`, and `public/robots.txt`.
+Canonical SEO URLs point to `https://health.tokenly.in`.
+
+## Search engines
+
+After a production deploy:
+
+1. Confirm `https://health.tokenly.in/sitemap.xml` and `/robots.txt` are reachable.
+2. Submit the sitemap in [Google Search Console](https://search.google.com/search-console).
+3. Submit the sitemap in [Bing Webmaster Tools](https://www.bing.com/webmasters).
+
+Do not add verification meta tags until the console provides the actual tokens.
+
+### Future content pages
+
+Thin duplicate pages were not created. Useful later pages, each with unique content:
+
+- Hospital Billing Software
+- IPD Billing Software
+- OPD Billing Software
+- Pharmacy Inventory Software
+- Appointment Booking Software
+- Custom Healthcare Software
 
 ## CI/CD (GitHub Pages)
 

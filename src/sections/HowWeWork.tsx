@@ -1,26 +1,26 @@
+import { SectionHeading } from '../components/SectionHeading'
 import { useLanguage } from '../i18n/LanguageContext'
 
 export function HowWeWork() {
   const { t } = useLanguage()
 
   return (
-    <section className="py-14 sm:py-16" id="about">
-      <div className="mx-auto max-w-[1160px] px-4 sm:px-8">
-        <p className="text-base font-semibold tracking-wide text-accent-600 uppercase">
-          {t.process.eyebrow}
-        </p>
-        <h2 className="mt-2 text-3xl font-semibold tracking-tight text-navy-900 sm:text-4xl">
-          {t.process.title}
-        </h2>
+    <section className="section" id="about">
+      <div className="wrap">
+        <SectionHeading eyebrow={t.process.eyebrow} title={t.process.title} sub={t.process.sub} />
 
-        <ol className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <ol className="relative mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <li
+            className="pointer-events-none absolute top-7 right-4 left-4 hidden h-px bg-accent-100 lg:block"
+            aria-hidden
+          />
           {t.process.steps.map((step, index) => (
-            <li key={step.title} className="surface-card rounded-2xl px-4 py-5">
-              <span className="text-2xl font-semibold text-accent-600">
+            <li key={step.title} className="relative">
+              <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-lg border border-accent-100 bg-white text-lg font-semibold text-accent-700">
                 {String(index + 1).padStart(2, '0')}
               </span>
-              <h3 className="mt-2 text-base font-semibold text-navy-900">{step.title}</h3>
-              <p className="mt-1.5 text-base text-navy-600">{step.detail}</p>
+              <h3 className="mt-4 text-lg font-semibold text-navy-900">{step.title}</h3>
+              <p className="mt-2 text-base leading-relaxed text-navy-600">{step.detail}</p>
             </li>
           ))}
         </ol>

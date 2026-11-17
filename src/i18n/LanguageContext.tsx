@@ -7,6 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import { brand } from '../config/brand'
 import translations from './translations.json'
 
 export type Locale = keyof typeof translations
@@ -20,7 +21,7 @@ type LanguageContextValue = {
   locales: Locale[]
 }
 
-const STORAGE_KEY = 'tokenly-health-locale'
+const STORAGE_KEY = brand.localeStorageKey
 const LanguageContext = createContext<LanguageContextValue | null>(null)
 
 function readStoredLocale(): Locale {
@@ -41,6 +42,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.lang = locale === 'ta' ? 'ta' : 'en'
+    if (locale !== 'ta' || document.getElementById('font-noto-tamil')) return
+    const link = document.createElement('link')
+    link.id = 'font-noto-tamil'
+    link.rel = 'stylesheet'
+    link.href =
+      'https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap'
+    document.head.appendChild(link)
   }, [locale])
 
   const value = useMemo<LanguageContextValue>(

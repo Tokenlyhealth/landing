@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, MouseEventHandler, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
-type Variant = 'primary' | 'secondary' | 'ghost'
+type Variant = 'primary' | 'secondary' | 'ghost' | 'inverse'
 type Size = 'md' | 'lg'
 
 type CommonProps = {
@@ -36,27 +36,35 @@ type ButtonAsLink = CommonProps & {
 
 type ButtonProps = ButtonAsButton | ButtonAsAnchor | ButtonAsLink
 
+function isLink(props: ButtonProps): props is ButtonAsLink {
+  return 'to' in props && typeof props.to === 'string'
+}
+
+function isAnchor(props: ButtonProps): props is ButtonAsAnchor {
+  return typeof props.href === 'string'
+}
+
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600 disabled:cursor-not-allowed disabled:opacity-60 active:scale-[0.97]'
+  'inline-flex min-h-11 items-center justify-center gap-2 rounded-lg font-semibold transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600 disabled:cursor-not-allowed disabled:opacity-60'
 
 const variants: Record<Variant, string> = {
-  primary:
-    'border border-accent-700 bg-[linear-gradient(180deg,#d45454,#c84141)] text-white shadow-[0_6px_20px_rgba(200,65,65,0.28),inset_0_1px_0_rgba(255,255,255,0.2)] hover:shadow-[0_10px_28px_rgba(200,65,65,0.38),inset_0_1px_0_rgba(255,255,255,0.2)]',
+  primary: 'border border-accent-700 bg-accent-600 text-white hover:bg-accent-700',
   secondary:
-    'border border-[rgba(15,15,20,0.08)] bg-white/70 text-navy-900 backdrop-blur-sm hover:shadow-[var(--shadow-tokenly)]',
+    'border border-slate-300 bg-white text-slate-700 hover:bg-slate-50',
   ghost: 'text-navy-600 hover:bg-black/[0.03] hover:text-navy-900',
+  inverse: 'border border-white/20 bg-white/8 text-white hover:bg-white/14',
 }
 
 const sizes: Record<Size, string> = {
   md: 'px-4 py-2.5 text-base',
-  lg: 'px-6 py-3.5 text-lg',
+  lg: 'px-6 py-3 text-lg',
 }
 
 export function Button(props: ButtonProps) {
   const { children, variant = 'primary', size = 'md', className = '' } = props
   const classes = `${base} ${variants[variant]} ${sizes[size]} ${className}`.trim()
 
-  if ('to' in props && props.to) {
+  if (isLink(props)) {
     return (
       <Link to={props.to} className={classes}>
         {children}
@@ -64,7 +72,7 @@ export function Button(props: ButtonProps) {
     )
   }
 
-  if ('href' in props && props.href) {
+  if (isAnchor(props)) {
     return (
       <a
         href={props.href}

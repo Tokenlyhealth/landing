@@ -7,14 +7,14 @@ export function Privacy() {
   const { t } = useLanguage()
 
   useEffect(() => {
-    document.title = `${t.privacy.title} · ${brand.name}`
+    document.title = `${t.privacy.title} · ${brand.productName}`
     return () => {
-      document.title = `${brand.name} · ${t.hero.headline}`
+      document.title = brand.seo.title
     }
   }, [t])
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <p className="text-base font-medium text-accent-600">
         <Link to="/" className="hover:underline">
           ← {t.privacy.back}
@@ -70,6 +70,6 @@ export function Privacy() {
           .
         </p>
       </div>
-    </main>
+    </div>
   )
 }

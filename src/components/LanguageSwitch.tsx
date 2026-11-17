@@ -6,7 +6,7 @@ export function LanguageSwitch({ className = '' }: { className?: string }) {
 
   return (
     <div
-      className={`inline-flex rounded-[10px] border border-[rgba(15,15,20,0.08)] bg-white/70 p-0.5 text-base backdrop-blur-sm ${className}`}
+      className={`inline-flex rounded-lg border border-slate-300 bg-white p-0.5 text-base ${className}`}
       role="group"
       aria-label="Language"
     >
@@ -18,10 +18,10 @@ export function LanguageSwitch({ className = '' }: { className?: string }) {
             key={code}
             type="button"
             onClick={() => setLocale(code)}
-            className={`rounded-md px-2.5 py-1.5 font-medium transition ${
+            className={`min-h-9 rounded-md px-2.5 py-1.5 font-semibold transition ${
               active
                 ? 'bg-navy-900 text-white'
-                : 'text-navy-600 hover:bg-black/[0.03] hover:text-navy-900'
+                : 'text-navy-600 hover:bg-slate-50 hover:text-navy-900'
             }`}
             aria-pressed={active}
           >

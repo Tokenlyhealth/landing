@@ -1,11 +1,14 @@
 import { Outlet, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
+import { brand } from '../config/brand'
+import { useLanguage } from '../i18n/LanguageContext'
 import { Backdrop } from './Backdrop'
 import { Footer } from './Footer'
 import { Navbar } from './Navbar'
 
 export function Layout() {
   const location = useLocation()
+  const { t, locale } = useLanguage()
 
   useEffect(() => {
     if (location.hash) {
@@ -19,13 +22,22 @@ export function Layout() {
     }
   }, [location.pathname, location.hash])
 
+  useEffect(() => {
+    if (location.pathname === '/') {
+      document.title = locale === 'ta' ? t.seo.title : brand.seo.title
+    }
+  }, [locale, location.pathname, t.seo.title])
+
   return (
     <div className="relative flex min-h-screen flex-col">
+      <a href="#main" className="skip-link">
+        {t.skip}
+      </a>
       <Backdrop />
       <Navbar />
-      <div className="relative flex-1">
+      <main id="main" className="relative flex-1">
         <Outlet />
-      </div>
+      </main>
       <Footer />
     </div>
   )

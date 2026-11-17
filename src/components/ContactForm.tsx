@@ -36,6 +36,10 @@ export function ContactForm() {
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       setValues((prev) => ({ ...prev, [field]: event.target.value }))
       setErrors((prev) => ({ ...prev, [field]: undefined }))
+      if (status !== 'submitting') {
+        setStatus('idle')
+        setStatusMessage('')
+      }
     }
 
   function validate(next: FormState): FormErrors {
@@ -63,8 +67,10 @@ export function ContactForm() {
     ].join('\n')
   }
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (status === 'submitting') return
+
     const nextErrors = validate(values)
     setErrors(nextErrors)
     if (Object.keys(nextErrors).length > 0) {
@@ -76,34 +82,32 @@ export function ContactForm() {
     setStatus('submitting')
     setStatusMessage('')
     const message = buildMessage(values)
+    const popup = window.open(
+      `https://wa.me/${brand.whatsapp}?text=${encodeURIComponent(message)}`,
+      '_blank',
+      'noopener,noreferrer',
+    )
 
-    try {
-      window.open(
-        `https://wa.me/${brand.whatsapp}?text=${encodeURIComponent(message)}`,
-        '_blank',
-        'noopener,noreferrer',
-      )
-      setStatus('success')
-      setStatusMessage(form.successWhatsapp)
-    } catch {
+    if (!popup) {
       setStatus('error')
       setStatusMessage(form.errors.sendFail)
+      return
     }
+
+    setStatus('success')
+    setStatusMessage(form.successWhatsapp)
   }
 
   const fieldClass =
-    'mt-1.5 w-full rounded-xl border border-[rgba(15,15,20,0.08)] bg-white px-4 py-3 text-base text-navy-900 transition placeholder:text-[#9298a8] focus:border-accent-600 focus:ring-2 focus:ring-accent-50'
-  const errorClass = 'mt-1.5 text-sm font-medium text-red-600'
+    'mt-1.5 w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-3 text-base font-medium text-navy-900 transition placeholder:text-navy-500 focus:border-accent-600 focus:bg-white focus:ring-2 focus:ring-accent-100'
+  const errorClass = 'mt-1.5 text-sm font-medium text-rose-700'
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className="surface-card rounded-2xl p-5 sm:p-6"
-      noValidate
-    >
+    <form onSubmit={onSubmit} className="surface-card rounded-xl p-5 sm:p-6" noValidate>
+      <p className="mb-4 text-sm text-navy-500">{form.requiredNote}</p>
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="name" className="text-base font-medium text-navy-800">
+          <label htmlFor="name" className="text-base font-semibold text-navy-800">
             {form.name}
           </label>
           <input
@@ -114,12 +118,17 @@ export function ContactForm() {
             onChange={update('name')}
             className={fieldClass}
             aria-invalid={Boolean(errors.name)}
+            aria-describedby={errors.name ? 'name-error' : undefined}
           />
-          {errors.name ? <p className={errorClass}>{errors.name}</p> : null}
+          {errors.name ? (
+            <p id="name-error" className={errorClass}>
+              {errors.name}
+            </p>
+          ) : null}
         </div>
 
         <div>
-          <label htmlFor="organization" className="text-base font-medium text-navy-800">
+          <label htmlFor="organization" className="text-base font-semibold text-navy-800">
             {form.organization}
           </label>
           <input
@@ -130,12 +139,17 @@ export function ContactForm() {
             onChange={update('organization')}
             className={fieldClass}
             aria-invalid={Boolean(errors.organization)}
+            aria-describedby={errors.organization ? 'organization-error' : undefined}
           />
-          {errors.organization ? <p className={errorClass}>{errors.organization}</p> : null}
+          {errors.organization ? (
+            <p id="organization-error" className={errorClass}>
+              {errors.organization}
+            </p>
+          ) : null}
         </div>
 
         <div>
-          <label htmlFor="phone" className="text-base font-medium text-navy-800">
+          <label htmlFor="phone" className="text-base font-semibold text-navy-800">
             {form.phone}
           </label>
           <input
@@ -148,12 +162,17 @@ export function ContactForm() {
             onChange={update('phone')}
             className={fieldClass}
             aria-invalid={Boolean(errors.phone)}
+            aria-describedby={errors.phone ? 'phone-error' : undefined}
           />
-          {errors.phone ? <p className={errorClass}>{errors.phone}</p> : null}
+          {errors.phone ? (
+            <p id="phone-error" className={errorClass}>
+              {errors.phone}
+            </p>
+          ) : null}
         </div>
 
         <div>
-          <label htmlFor="email" className="text-base font-medium text-navy-800">
+          <label htmlFor="email" className="text-base font-semibold text-navy-800">
             {form.email}
           </label>
           <input
@@ -165,12 +184,17 @@ export function ContactForm() {
             onChange={update('email')}
             className={fieldClass}
             aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? 'email-error' : undefined}
           />
-          {errors.email ? <p className={errorClass}>{errors.email}</p> : null}
+          {errors.email ? (
+            <p id="email-error" className={errorClass}>
+              {errors.email}
+            </p>
+          ) : null}
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor="solution" className="text-base font-medium text-navy-800">
+          <label htmlFor="solution" className="text-base font-semibold text-navy-800">
             {form.solution}
           </label>
           <select
@@ -180,6 +204,7 @@ export function ContactForm() {
             onChange={update('solution')}
             className={fieldClass}
             aria-invalid={Boolean(errors.solution)}
+            aria-describedby={errors.solution ? 'solution-error' : undefined}
           >
             <option value="">{form.solutionPlaceholder}</option>
             {form.options.map((option) => (
@@ -188,28 +213,37 @@ export function ContactForm() {
               </option>
             ))}
           </select>
-          {errors.solution ? <p className={errorClass}>{errors.solution}</p> : null}
+          {errors.solution ? (
+            <p id="solution-error" className={errorClass}>
+              {errors.solution}
+            </p>
+          ) : null}
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor="description" className="text-base font-medium text-navy-800">
+          <label htmlFor="description" className="text-base font-semibold text-navy-800">
             {form.description}
           </label>
           <textarea
             id="description"
             name="description"
-            rows={3}
+            rows={4}
             value={values.description}
             onChange={update('description')}
             placeholder={form.descriptionPlaceholder}
             className={`${fieldClass} resize-y`}
             aria-invalid={Boolean(errors.description)}
+            aria-describedby={errors.description ? 'description-error' : undefined}
           />
-          {errors.description ? <p className={errorClass}>{errors.description}</p> : null}
+          {errors.description ? (
+            <p id="description-error" className={errorClass}>
+              {errors.description}
+            </p>
+          ) : null}
         </div>
       </div>
 
-      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
         <Button type="submit" size="lg" disabled={status === 'submitting'}>
           {status === 'submitting' ? form.submitting : form.submit}
         </Button>
@@ -229,7 +263,7 @@ export function ContactForm() {
 
       {statusMessage ? (
         <p
-          className={`mt-3 text-base ${status === 'error' ? 'text-red-600' : 'text-navy-700'}`}
+          className={`mt-3 text-base ${status === 'error' ? 'text-rose-700' : 'text-accent-700'}`}
           role="status"
           aria-live="polite"
         >

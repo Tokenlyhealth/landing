@@ -24,11 +24,11 @@ export function Navbar() {
   }, [open])
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md">
-      <div className="mx-auto flex h-[72px] max-w-[1160px] items-center justify-between gap-3 px-4 sm:px-8">
+    <header className="sticky top-0 z-50 border-b border-[rgba(15,15,20,0.06)] bg-surface/90 backdrop-blur-md">
+      <div className="wrap flex h-[72px] items-center justify-between gap-3">
         <Logo />
 
-        <nav className="hidden items-center gap-5 lg:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-6 lg:flex" aria-label="Primary">
           {navHrefs.map((item) => (
             <a
               key={item.href}
@@ -40,18 +40,18 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-3 lg:flex">
           <LanguageSwitch />
           <Button href="#contact" size="md">
             {t.nav.cta}
           </Button>
         </div>
 
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
           <LanguageSwitch />
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-[10px] border border-[rgba(15,15,20,0.08)] bg-white/70 text-navy-800"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-300 bg-white text-navy-800"
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? t.nav.menuClose : t.nav.menuOpen}
@@ -73,7 +73,7 @@ export function Navbar() {
       {open ? (
         <div
           id="mobile-nav"
-          className="border-t border-[rgba(15,15,20,0.08)] bg-[#fafaf9]/95 px-4 py-4 backdrop-blur-md md:hidden"
+          className="border-t border-slate-200 bg-surface px-4 py-4 lg:hidden"
         >
           <nav className="flex flex-col gap-1" aria-label="Mobile">
             {navHrefs.map((item) => (

@@ -1,14 +1,16 @@
 import { useEffect, useRef } from 'react'
+import { usePrefersReducedMotion } from '../hooks/useMedia'
 
 const CELL = 48
 const INK = '15, 15, 20'
-const ACCENT = '200, 65, 65'
+const ACCENT = '13, 122, 79'
 
 /**
- * Plain Tokenly backdrop: soft box-tile grid that brightens near the cursor.
+ * Soft box-tile grid that brightens near the cursor. Green accent matches the product theme.
  */
 export function Backdrop() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const reducedMotion = usePrefersReducedMotion()
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -17,7 +19,6 @@ export function Backdrop() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999 }
     let width = 0
     let height = 0
@@ -50,25 +51,22 @@ export function Backdrop() {
           const y = row * CELL
           const cx = x + CELL / 2
           const cy = y + CELL / 2
-          const dx = cx - mouse.x
-          const dy = cy - mouse.y
-          const dist = Math.sqrt(dx * dx + dy * dy)
+          const dist = Math.hypot(cx - mouse.x, cy - mouse.y)
           const influence = Math.max(0, 1 - dist / radius)
           const pad = 5
           const size = CELL - pad * 2
 
-          const baseAlpha = 0.035 + influence * 0.08
-          ctx.strokeStyle = `rgba(${INK}, ${baseAlpha})`
+          ctx.strokeStyle = `rgba(${INK}, ${0.035 + influence * 0.08})`
           ctx.lineWidth = 1
           ctx.strokeRect(x + pad, y + pad, size, size)
 
           if (influence > 0.08) {
-            ctx.strokeStyle = `rgba(${ACCENT}, ${influence * 0.22})`
+            ctx.strokeStyle = `rgba(${ACCENT}, ${influence * 0.28})`
             ctx.lineWidth = 1 + influence * 1.2
             ctx.strokeRect(x + pad, y + pad, size, size)
 
             if (influence > 0.45) {
-              ctx.fillStyle = `rgba(${ACCENT}, ${influence * 0.06})`
+              ctx.fillStyle = `rgba(${ACCENT}, ${influence * 0.07})`
               ctx.fillRect(x + pad, y + pad, size, size)
             }
           }
@@ -125,7 +123,7 @@ export function Backdrop() {
       window.removeEventListener('pointerleave', onLeave)
       document.removeEventListener('visibilitychange', onVisibility)
     }
-  }, [])
+  }, [reducedMotion])
 
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">

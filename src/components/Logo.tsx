@@ -13,11 +13,12 @@ export function Logo({ className = '' }: LogoProps) {
       aria-label={`${brand.name} home`}
     >
       <img
-        src="/logo.png"
+        src="/logo-mark.png"
         alt=""
-        width={28}
-        height={23}
-        className="h-[23px] w-7 object-contain"
+        width={32}
+        height={26}
+        className="h-[26px] w-8 object-contain"
+        decoding="async"
         aria-hidden="true"
       />
       <span className="text-xl font-semibold tracking-[-0.02em] text-navy-900">{brand.name}</span>
