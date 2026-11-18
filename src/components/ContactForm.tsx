@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, type FormEvent } from 'react'
+import { useState, type ChangeEvent, type FormEvent, type MouseEvent } from 'react'
 import { brand } from '../config/brand'
 import { useLanguage } from '../i18n/LanguageContext'
 import { Button } from './Button'
@@ -65,6 +65,40 @@ export function ContactForm() {
       '',
       next.description.trim(),
     ].join('\n')
+  }
+
+  function enquiryMessage(next: FormState) {
+    const lines = [
+      next.name.trim() && `Name: ${next.name.trim()}`,
+      next.organization.trim() && `Organisation: ${next.organization.trim()}`,
+      next.phone.trim() && `Phone: ${next.phone.trim()}`,
+      next.email.trim() && `Email: ${next.email.trim()}`,
+      next.solution && `Solution: ${next.solution}`,
+      next.description.trim(),
+    ].filter((line): line is string => Boolean(line))
+
+    if (lines.length === 0) {
+      return `Hello ${brand.name},\n\nI would like to discuss software for our organisation.`
+    }
+
+    return [`Enquiry for ${brand.productName}`, ...lines].join('\n')
+  }
+
+  function onEmailClick(event: MouseEvent<HTMLAnchorElement>) {
+    event.preventDefault()
+    const message = enquiryMessage(values)
+    const compose = new URL('https://mail.google.com/mail/')
+    compose.searchParams.set('view', 'cm')
+    compose.searchParams.set('fs', '1')
+    compose.searchParams.set('to', brand.email)
+    compose.searchParams.set('su', `${brand.productName} enquiry`)
+    compose.searchParams.set('body', message)
+
+    const popup = window.open(compose.toString(), '_blank', 'noopener,noreferrer')
+    if (!popup) {
+      setStatus('error')
+      setStatusMessage(`${form.errors.emailFail} ${brand.email}`)
+    }
   }
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -243,7 +277,7 @@ export function ContactForm() {
         </div>
       </div>
 
-      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center [&>*]:max-w-full">
         <Button type="submit" size="lg" disabled={status === 'submitting'}>
           {status === 'submitting' ? form.submitting : form.submit}
         </Button>
@@ -256,7 +290,7 @@ export function ContactForm() {
         >
           {form.whatsapp}
         </Button>
-        <Button href={brand.mailto} variant="ghost" size="lg">
+        <Button href={brand.mailto} variant="ghost" size="lg" onClick={onEmailClick}>
           {form.emailUs}
         </Button>
       </div>

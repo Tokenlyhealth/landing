@@ -9,7 +9,7 @@ export function Contact() {
     <section className="section" id="contact">
       <div className="wrap grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
         <div>
-          <p className="mb-2 text-sm font-semibold tracking-[0.12em] text-accent-700 uppercase">
+          <p className="mb-2 text-sm font-semibold tracking-[0.06em] break-words text-accent-700 uppercase">
             {t.contact.eyebrow}
           </p>
           <h2 className="text-balance text-3xl font-semibold tracking-tight text-navy-900 sm:text-4xl">

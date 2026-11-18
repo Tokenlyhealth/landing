@@ -15,7 +15,7 @@ export function HowWeWork() {
             aria-hidden
           />
           {t.process.steps.map((step, index) => (
-            <li key={step.title} className="relative">
+            <li key={step.title} className="relative min-w-0">
               <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-lg border border-accent-100 bg-white text-lg font-semibold text-accent-700">
                 {String(index + 1).padStart(2, '0')}
               </span>

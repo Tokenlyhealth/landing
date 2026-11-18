@@ -25,29 +25,32 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[rgba(15,15,20,0.06)] bg-surface/90 backdrop-blur-md">
-      <div className="wrap flex h-[72px] items-center justify-between gap-3">
+      <div className="wrap flex min-h-[72px] items-center gap-x-4 gap-y-2 py-2">
         <Logo />
 
-        <nav className="hidden items-center gap-6 lg:flex" aria-label="Primary">
+        <nav
+          className="hidden min-w-0 flex-1 flex-wrap items-center justify-end gap-x-4 gap-y-1 lg:flex"
+          aria-label="Primary"
+        >
           {navHrefs.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="text-base text-navy-600 transition hover:text-navy-900"
+              className="text-center text-base leading-snug text-navy-600 transition hover:text-navy-900"
             >
               {t.nav[item.key]}
             </a>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
+        <div className="hidden shrink-0 items-center gap-3 lg:flex">
           <LanguageSwitch />
           <Button href="#contact" size="md">
             {t.nav.cta}
           </Button>
         </div>
 
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="ms-auto flex shrink-0 items-center gap-2 lg:hidden">
           <LanguageSwitch />
           <button
             type="button"

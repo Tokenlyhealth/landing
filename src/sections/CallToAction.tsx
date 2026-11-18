@@ -21,7 +21,7 @@ export function CallToAction() {
               {t.cta.title}
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-white/80">{t.cta.sub}</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Button href="#contact" size="lg">
                 {t.cta.primary}
               </Button>

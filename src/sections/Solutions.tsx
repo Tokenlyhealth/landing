@@ -54,7 +54,7 @@ export function Solutions() {
                     {artKind ? <Art kind={artKind} /> : null}
                   </div>
                   <div className={`p-5 sm:p-8 ${reverse ? 'lg:order-1' : ''}`}>
-                    <p className="text-sm font-semibold tracking-[0.1em] text-accent-700 uppercase">
+                    <p className="text-sm font-semibold tracking-[0.06em] break-words text-accent-700 uppercase">
                       {item.kicker}
                     </p>
                     <h3 className="mt-2 text-2xl font-semibold text-navy-900 sm:text-[1.7rem]">
@@ -64,7 +64,7 @@ export function Solutions() {
 
                     <ul className="mt-5 grid gap-2 sm:grid-cols-2">
                       {item.highlights.map((point) => (
-                        <li key={point} className="flex items-start gap-2.5 text-base text-navy-700">
+                        <li key={point} className="flex min-w-0 items-start gap-2.5 text-base text-navy-700">
                           <span
                             className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-600"
                             aria-hidden
@@ -102,7 +102,7 @@ export function Solutions() {
                               {capability.points.map((point) => (
                                 <li
                                   key={point}
-                                  className="flex items-start gap-2.5 text-base text-navy-700"
+                                  className="flex min-w-0 items-start gap-2.5 text-base text-navy-700"
                                 >
                                   <span
                                     className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-600"

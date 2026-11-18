@@ -12,7 +12,7 @@ export function Industries() {
           {t.industries.items.map((industry) => (
             <li
               key={industry}
-              className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-base font-medium text-navy-800"
+              className="max-w-full rounded-lg border border-slate-200 bg-white px-4 py-2 text-base font-medium break-words text-navy-800"
             >
               {industry}
             </li>

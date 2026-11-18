@@ -334,7 +334,8 @@
           "solution": "Select a solution.",
           "description": "Add a short note (20+ characters).",
           "fix": "Please fix the highlighted fields.",
-          "sendFail": "Could not open WhatsApp. Please email or call us instead."
+          "sendFail": "Could not open WhatsApp. Please email or call us instead.",
+          "emailFail": "Could not open email. Write to"
         },
         "successWhatsapp": "Opening WhatsApp with your enquiry."
       }
@@ -711,7 +712,8 @@
           "solution": "ஒரு தீர்வைத் தேர்ந்தெடுக்கவும்.",
           "description": "குறுகிய குறிப்பு எழுதவும் (20+ எழுத்துகள்).",
           "fix": "குறிக்கப்பட்ட புலங்களை சரிசெய்யவும்.",
-          "sendFail": "WhatsApp திறக்க முடியவில்லை. மின்னஞ்சல் அல்லது அழைப்பு செய்யவும்."
+          "sendFail": "WhatsApp திறக்க முடியவில்லை. மின்னஞ்சல் அல்லது அழைப்பு செய்யவும்.",
+          "emailFail": "மின்னஞ்சல் திறக்க முடியவில்லை. இந்த முகவரிக்கு எழுதவும்:"
         },
         "successWhatsapp": "உங்கள் கேள்வியுடன் WhatsApp திறக்கிறது."
       }

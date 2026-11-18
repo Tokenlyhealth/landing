@@ -45,7 +45,7 @@ function isAnchor(props: ButtonProps): props is ButtonAsAnchor {
 }
 
 const base =
-  'inline-flex min-h-11 items-center justify-center gap-2 rounded-lg font-semibold transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600 disabled:cursor-not-allowed disabled:opacity-60'
+  'inline-flex min-h-11 max-w-full items-center justify-center gap-2 rounded-lg text-center leading-snug font-semibold whitespace-normal transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600 disabled:cursor-not-allowed disabled:opacity-60'
 
 const variants: Record<Variant, string> = {
   primary: 'border border-accent-700 bg-accent-600 text-white hover:bg-accent-700',

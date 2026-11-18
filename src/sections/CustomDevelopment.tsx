@@ -25,7 +25,7 @@ export function CustomDevelopment() {
               {t.custom.examples.map((example) => (
                 <li
                   key={example}
-                  className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-base font-medium text-navy-800"
+                  className="max-w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-base font-medium break-words text-navy-800"
                 >
                   {example}
                 </li>

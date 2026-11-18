@@ -36,6 +36,20 @@
   body {
     @apply m-0 min-h-screen bg-surface font-sans text-[17px] leading-relaxed text-navy-900 antialiased sm:text-lg;
     overflow-x: hidden;
+    overflow-wrap: break-word;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  li,
+  a,
+  button,
+  label,
+  dd {
+    overflow-wrap: break-word;
   }
 
   ::selection {
@@ -67,6 +81,10 @@
 
   .wrap {
     @apply mx-auto max-w-[1160px] px-4 sm:px-8;
+  }
+
+  .wrap :where(.grid > *) {
+    min-width: 0;
   }
 
   .section {
